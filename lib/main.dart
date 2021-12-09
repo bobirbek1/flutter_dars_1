@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dars_1/answer_button.dart';
 import 'package:flutter_dars_1/question.dart';
 
 void main() {
@@ -6,21 +7,37 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  var questions = [
-    "O'zbekistonning poytaxti",
-    "Dunyodagi eng kichik davlat?",
-    "Eng uzun daryo?",
+
+  var _questions = <Map<String,dynamic>>[
+    {
+      "question": "O'zbekistonning poytaxti",
+      "answer": ["Toshkent", "Samarqand", "Andijon"]
+    },
+    {
+      "question": "Dunyning eng kichik davlati?",
+      "answer": ["Rossiya", "Saudi", "Vatikan", "Xitoy"]
+    },
+    {
+      "question": "Nechi yoshdasan?",
+      "answer": ["12", "23", "48", "60"]
+    }
   ];
+  // [
+  //   "O'zbekistonning poytaxti",
+  //   "Dunyodagi eng kichik davlat?",
+  //   "Eng uzun daryo?",
+  // ];
+
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> {
   var questionIndex = 0;
-
-  void updateState() {
+  _updateState() {
+    print("update state");
     setState(() {
       questionIndex++;
     });
@@ -28,6 +45,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // question._question = "Assalomu alaykum!";
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -37,23 +55,12 @@ class MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Question(),
-            ElevatedButton(
-              onPressed: () {
-                updateState();
-              },
-              child: Text("Toshkent"),
+            Question(
+              widget._questions[questionIndex]["question"],
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text("Samarqand"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                updateState();
-              },
-              child: Text("Andijon"),
-            ),
+            ...widget._questions[questionIndex]["answer"]?.map((element) {
+              return AnswerButton(_updateState,element);
+            }),
           ],
         ),
       ),
@@ -63,27 +70,4 @@ class MyAppState extends State<MyApp> {
   void addTwoInt(int a, int b) {
     print(a + b);
   }
-
-  // home: Scaffold(
-  //   appBar: AppBar(
-  //     title: Text("My first app"),
-  //   ),
-  //   body: Column(
-  //     children: [
-  //       Text(widget.questions[questionIndex]),
-  //       ElevatedButton(
-  //         onPressed: updateState,
-  //         child: Text("answer 1"),
-  //       ),
-  //       ElevatedButton(
-  //         onPressed: updateState,
-  //         child: Text("answer 2"),
-  //       ),
-  //       ElevatedButton(
-  //         onPressed: updateState,
-  //         child: Text("answer 3"),
-  //       ),
-  //     ],
-  //   ),
-  // ),
 }

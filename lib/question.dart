@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Question extends StatelessWidget {
+  final _question;
+
+  Question(this._question);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -9,7 +13,7 @@ class Question extends StatelessWidget {
       margin: EdgeInsets.all(16),
       padding: EdgeInsets.all(16),
       child: Text(
-        "Welcome...",
+        _question,
         style: TextStyle(
           fontSize: 18,
           fontStyle: FontStyle.italic,
