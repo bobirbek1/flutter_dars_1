@@ -1,73 +1,78 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:flutter_dars_1/answer_button.dart';
-import 'package:flutter_dars_1/question.dart';
+import 'package:flutter_dars_1/widgets/answer_button.dart';
+import 'package:flutter_dars_1/widgets/natija.dart';
+import 'package:flutter_dars_1/widgets/question.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
+   MyApp({Key? key}) : super(key: key);
 
-  var _questions = <Map<String,dynamic>>[
+   final List<Map<String, dynamic>> savollar = const [
     {
-      "question": "O'zbekistonning poytaxti",
-      "answer": ["Toshkent", "Samarqand", "Andijon"]
+      "savol": "Olma",
+      "javob": ["apple", "cherry", "banana", "apricot"],
+      "to'g'riJavob": 0
     },
     {
-      "question": "Dunyning eng kichik davlati?",
-      "answer": ["Rossiya", "Saudi", "Vatikan", "Xitoy"]
+      "savol": "Banan",
+      "javob": ["apple", "cherry", "banana"],
+      "to'g'riJavob": 2
     },
     {
-      "question": "Nechi yoshdasan?",
-      "answer": ["12", "23", "48", "60"]
+      "savol": "Apelsin",
+      "javob": ["apple", "cherry", "orange", "apricot"],
+      "to'g'riJavob": 2
     }
   ];
-  // [
-  //   "O'zbekistonning poytaxti",
-  //   "Dunyodagi eng kichik davlat?",
-  //   "Eng uzun daryo?",
-  // ];
 
   @override
-  State<StatefulWidget> createState() {
-    return _MyAppState();
-  }
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  var questionIndex = 0;
-  _updateState() {
-    print("update state");
+  var index = 0;
+  var natija = 0;
+
+  holatniYangilash(int javobIndex) {
+    if (widget.savollar[index]["to'g'riJavob"] == javobIndex) natija++;
     setState(() {
-      questionIndex++;
+      index++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // question._question = "Assalomu alaykum!";
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Telegram",
+            "6-dars",
           ),
         ),
-        body: Column(
-          children: [
-            Question(
-              widget._questions[questionIndex]["question"],
-            ),
-            ...widget._questions[questionIndex]["answer"]?.map((element) {
-              return AnswerButton(_updateState,element);
-            }),
-          ],
-        ),
+        body: index < widget.savollar.length
+            ? Column(
+                children: [
+                  Question(
+                    widget.savollar[index]["savol"],
+                  ),
+                  ...widget.savollar[index]["javob"]!.map(
+                    (javob) {
+                      return AnswerButton(
+                        javob,
+                        widget.savollar[index]["javob"].indexOf(javob),
+                        holatniYangilash,
+                      );
+                    },
+                  ),
+                ],
+              )
+            : Natija("Sizning darajangiz: $natija"),
       ),
     );
-  }
-
-  void addTwoInt(int a, int b) {
-    print(a + b);
   }
 }
